@@ -1,0 +1,23 @@
+# Ignore raw data and large files
+data/
+results/
+*.h5
+*.csv
+*.nc
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore VS Code workspace settings
+.vscode/
+
+# Ignore logs
+*.log
+
+# Ignore temporary files
+*.tmp
+*.bak
