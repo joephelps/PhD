@@ -1,0 +1,10 @@
+# Core scientific packages
+pandas>=2.0
+numpy>=1.26
+xarray>=2023.3
+netCDF4>=1.6
+
+# Plotting
+matplotlib>=3.7
+seaborn>=0.12
+

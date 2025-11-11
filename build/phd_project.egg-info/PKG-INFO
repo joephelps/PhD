@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: phd_project
+Version: 0.1
+Requires-Dist: pandas
+Requires-Dist: xarray
+Requires-Dist: netCDF4
