@@ -1,0 +1,13 @@
+name: phd_venv
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - xarray
+  - netcdf4
+  - requests
+  - pip
+  - pip:
+      - -e .    # installs your local src/ packages in editable mode

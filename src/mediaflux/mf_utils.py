@@ -2,6 +2,8 @@ import subprocess
 import os
 from pathlib import Path
 
+def connect_to_mediaflux(profile="default"):
+    print(f"Connecting to Mediaflux with profile: {profile}")
 
 def upload_to_mediaflux(local_path, dest_path, profile=None):
     """

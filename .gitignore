@@ -4,20 +4,29 @@ results/
 *.h5
 *.csv
 *.nc
+#(Add geospatial data types)
 
-# Ignore Python cache files
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
-# Ignore Jupyter notebook checkpoints
-.ipynb_checkpoints/
+# Build
+build/
+dist/
+*.egg-info/
 
-# Ignore VS Code workspace settings
+# VS Code
 .vscode/
 
-# Ignore logs
-*.log
+# Conda environments
+.env/
+env/
+.conda_env/
+*.conda
 
-# Ignore temporary files
+# Logs and misc
+*.log
 *.tmp
-*.bak
+
