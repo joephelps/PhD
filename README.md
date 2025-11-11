@@ -1,1 +1,5 @@
-Joseph Phelps PhD project repo
+## Author: Joseph Phelps
+
+## Structure:
+
+## Setup:
