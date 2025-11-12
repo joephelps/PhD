@@ -54,7 +54,7 @@ def download_from_mediaflux(src_path, local_dir=".", profile=None):
     local_dir = Path(local_dir).expanduser().resolve()
     os.makedirs(local_dir, exist_ok=True)
 
-    cmd = ["unimelb-mf-download", "--src", src_path, str(local_dir)]
+    cmd = ["unimelb-mf-download", "--out", str(local_dir), src_path]
     if profile:
         cmd.extend(["--profile", profile])
 
