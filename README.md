@@ -5,7 +5,11 @@
 ## Setup:
 
 Run "conda env create -f environment.yml"
-Activate encrionment: conda activate phd_venv
+Activate environment: conda activate phd_venv
+
+Register Jupyter kernel:
+Python: python -m ipykernel install --user --name phd-venv --display-name "Python (phd-venv)"
+R: IRkernel::installspec(name="r-phd-venv", displayname="R (phd-venv)")
 
 ## Mediaflux
 
