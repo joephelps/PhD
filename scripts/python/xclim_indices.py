@@ -56,6 +56,12 @@ def api(pr, window, p_exp=0.935):
     )
     return api
 
+def RI(pr, baseline_start='1980-01-01', baseline_end='2009-12-31'):
+    pr_baseline = pr[baseline_start:baseline_end]
+    threshold = np.percentile(pr_baseline, 5)
+    RI = (pr / threshold) * 100
+    return RI
+
 # %% MAIN ###
 
 sites = ['cpr','whr','wom','tum','wac']
