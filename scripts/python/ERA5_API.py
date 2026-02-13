@@ -1,4 +1,5 @@
 import cdsapi
+import pandas as pd
 from urllib3 import request
 
 #dataset = "derived-era5-single-levels-daily-statistics" # "derived-era5-single-levels-daily-statistics" or "derived-era5-land-daily-statistics" for daily ERA5/ERA5-Land data
@@ -6,18 +7,18 @@ from urllib3 import request
 #variable = 'volumetric_soil_water_layer_1'
 
 #site = 'wom'
+
+sites = pd.read_csv("/Users/phelps/PhD/DATA/ozflux/flux_sites.csv")
 extent = [-37.4, 144.05, -37.45, 144.10]
 
-years = ['2015', '2016', '2017', '2018', '2019',
-         '2020', '2021', '2022', '2023', '2024']
+years = ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024']
 
 months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
 days = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
         '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
         '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31']
-
-path = "/Users/phelps/PhD/DATA" 
+ 
 
 def get_extent(latitude,longitude):
     """
@@ -42,7 +43,7 @@ def get_extent(latitude,longitude):
     
     return [lat_max, lon_min, lat_min, lon_max]
 
-def download_ERA5(dataset, variable, year, months, days, extent, path):
+def download_ERA5(dataset, variable, year, months, days, extent, path,site):
 
     if dataset == "derived-era5-land-daily-statistics":
         
@@ -60,7 +61,7 @@ def download_ERA5(dataset, variable, year, months, days, extent, path):
         client = cdsapi.Client()
 
         result = client.retrieve(dataset, request)
-        result.download(f"{path}/ERA5-Land/{variable}_{year}.nc")
+        result.download(f"{path}/ERA5-Land/{site}_{variable}_{year}.nc")
     
     elif dataset == "derived-era5-single-levels-daily-statistics":
 
@@ -79,15 +80,23 @@ def download_ERA5(dataset, variable, year, months, days, extent, path):
         client = cdsapi.Client()
     
         result = client.retrieve(dataset, request)
-        result.download(f"{path}/ERA5/{variable}_{year}.nc")
+        result.download(f"{path}/ERA5/{site}_{variable}_{year}.nc")
 
+site_list = ['cpr','whr','tum','wac']
 
-for year in years:
+path = "/Users/phelps/PhD/DATA" 
 
- 
+for site in site_list:
+    latitude = sites[sites['site'] == f'au-{site}'].latitude.values[0]
+    longitude = sites[sites['site'] == f'au-{site}'].longitude.values[0]
+    extent = get_extent(latitude, longitude)
+    
+    print('extent', extent)
 
-    dataset = "derived-era5-land-daily-statistics"
-    variable = 'volumetric_soil_water_layer_1'
-    download_ERA5(dataset, variable, year, months, days, extent, path)
+    for year in years:
+
+        dataset = "derived-era5-land-daily-statistics"
+        variable = 'volumetric_soil_water_layer_2'
+        download_ERA5(dataset, variable, year, months, days, extent, path, site)
 
 
