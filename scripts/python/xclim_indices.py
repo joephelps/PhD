@@ -56,11 +56,21 @@ def api(pr, window, p_exp=0.935):
     )
     return api
 
-def RI(pr, baseline_start='1980-01-01', baseline_end='2009-12-31'):
-    pr_baseline = pr[baseline_start:baseline_end]
-    threshold = np.percentile(pr_baseline, 5)
-    RI = (pr / threshold) * 100
-    return RI
+def RI(pr,window=365, baseline_start='1980-01-01', baseline_end='2009-12-31'):
+    # 1. compute N-month rolling sum
+    rain_N_mo = pr.rolling(window=window, min_periods=window).sum()
+
+    # 2. select baseline period
+    baseline_mask = (pr.index >= baseline_start) & (pr.index <= baseline_end)
+    baseline_12mo = rain_N_mo[baseline_mask].dropna()
+
+    # 3. compute percentile rank for each date
+    def percentile_rank(value):
+        return 100 * (baseline_12mo <= value).sum() / len(baseline_12mo)
+
+    ri = rain_N_mo.apply(percentile_rank)
+
+    return ri
 
 # %% MAIN ###
 
@@ -85,15 +95,32 @@ for site in sites:
     spi_6 = spi(pr, window=6)
     spi_12 = spi(pr, window=12)
     spei_12 = spei(wb, window=12)
+    api_7 = api(pr, window=7)
+    api_30 = api(pr, window=30)
+    ri = RI(clim_data['daily_rain'], window=180)
+    ri_monthly = RI(clim_data['daily_rain'].resample('MS').sum(), window=6)
+  
    
 
-    indices_df = pd.DataFrame({
+    indices_monthly_df = pd.DataFrame({
         'date':spi_6.time.values,
         'SPI_6': spi_6.values,
         'SPI_12': spi_12.values,
-        'SPEI_12': spei_12.values
+        'SPEI_12': spei_12.values,
+        'RI_6': ri_monthly.values
     })
 
-    indices_df.to_csv(f'/Users/phelps/PhD/DATA/climate/Indices/monthly/{site}_climate_indices.csv')
+    indices_daily_df = pd.DataFrame({
+        'date':pr.time.values,
+        'API_7': api_7.values,
+        'API_30': api_30.values,
+        'RI_180': ri.values
+    })
+
+   
+
+    indices_monthly_df.to_csv(f'/Users/phelps/PhD/DATA/climate/Indices/monthly/{site}_climate_indices_M.csv')
+    indices_daily_df.to_csv(f'/Users/phelps/PhD/DATA/climate/Indices/daily/{site}_climate_indices_D.csv')
+
 
 # %%
