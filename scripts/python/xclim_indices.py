@@ -98,8 +98,10 @@ for site in sites:
     spei_6 = spei(wb, window=6)
     api_7 = api(pr, window=7)
     api_30 = api(pr, window=30)
+    ri_30 = RI(clim_data['daily_rain'], window=30)
     ri_180 = RI(clim_data['daily_rain'], window=180)
     ri_365 = RI(clim_data['daily_rain'], window=365)
+    ri_3 = RI(clim_data['daily_rain'].resample('MS').sum(), window=3)
     ri_6 = RI(clim_data['daily_rain'].resample('MS').sum(), window=6)
     ri_12 = RI(clim_data['daily_rain'].resample('MS').sum(), window=12)
   
@@ -111,6 +113,7 @@ for site in sites:
         'SPI_12': spi_12.values,
         'SPEI_6': spei_6.values,
         'SPEI_12': spei_12.values,
+        'RI_3': ri_3.values,
         'RI_6': ri_6.values,
         'RI_12': ri_12.values
     })
@@ -119,6 +122,7 @@ for site in sites:
         'date':pr.time.values,
         'API_7': api_7.values,
         'API_30': api_30.values,
+        'RI_30': ri_30.values,
         'RI_180': ri_180.values,
         'RI_365': ri_365.values
     })
